@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<link rel="stylesheet" href="style.css">
-<title>Jules Ressourcen Archiv</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Upload and View</title>
 </head>
 <body>
+    <h1>Text Upload and View</h1>
 
-<h1>This is a heading</h1>
-<p>This is a paragraph.</p>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="textFile">Upload Text File:</label>
+        <input type="file" id="textFile" name="textFile" accept=".txt">
+        <button type="submit">Upload</button>
+    </form>
 
+    <h2>Uploaded Texts:</h2>
+    <ul id="textList"></ul>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('textFile', document.getElementById('textFile').files[0]);
+
+            await fetch('https://your-heroku-app.herokuapp.com/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            loadTexts();
+        });
+
+        async function loadTexts() {
+            const response = await fetch('https://your-heroku-app.herokuapp.com/texts');
+            const texts = await response.json();
+            const textList = document.getElementById('textList');
+            textList.innerHTML = '';
+            texts.forEach(text => {
+                const li = document.createElement('li');
+                li.textContent = text;
+                textList.appendChild(li);
+            });
+        }
+
+        loadTexts();
+    </script>
 </body>
-</html> 
+</html>
