@@ -15,7 +15,7 @@ var videos = []; // Initialize an empty array
 
 // Function to fetch videos from GitHub Pages
 function fetchVideos() {
-    fetch('https://github.com/Silasmk/JulesResArch/blob/main/data/videos.json')
+    fetch('https://Silasmk.github.io/JulesResArch/data/videos.json')
         .then(response => response.json())
         .then(data => {
             videos = data;
