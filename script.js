@@ -10,17 +10,20 @@
 //data = '[{"name" : "Ashwin", "age" : "20"},{"name" : "Abhinandan", "age" : "20"}]';
 //var mydata = JSON.parse(data);
 
-fetch("C:\Users\silic\Desktop\ResJu\GitHub\JulesResArch\data.txt")
-  .then((res) => res.text())
-  .then((text) => {
-    const videos = JSON.parse(text);
-    alert(videos[0].id)
-   })
-  .catch((e) => console.error(e));
-
-//alert(mydata[0].name)
-
 var players = [];
+var videos = []; // Initialize an empty array
+
+// Function to fetch videos from GitHub Pages
+function fetchVideos() {
+    fetch('https://github.com/Silasmk/JulesResArch/blob/main/data/videos.json')
+        .then(response => response.json())
+        .then(data => {
+            videos = data;
+            createVideoContainers();
+            loadYouTubeAPI();
+        })
+        .catch(error => console.error('Error fetching video data:', error));
+}
 
 function createVideoContainers() {
     var containerWrapper = document.getElementById('video-container-wrapper');
@@ -61,14 +64,13 @@ function initializeYouTubePlayers() {
 }
 
 function onYouTubeIframeAPIReady() {
-    initializeYouTubePlayers();
+    fetchVideos();
 }
 
 function onPlayerReady(event) {
     var player = event.target;
     var playerIndex = players.indexOf(player);
     var videoData = videos[playerIndex];
-
 
     // Seek to the start time
     player.seekTo(videoData.startTime, true);
@@ -78,7 +80,6 @@ function onPlayerReady(event) {
     player.playVideo();
 }
 
-// This function is called when any player's state changes
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
         // Pause the video immediately
@@ -86,8 +87,7 @@ function onPlayerStateChange(event) {
     }
 }
 
-// Initialize video containers and load the YouTube API
+// Initialize video containers and load the YouTube API on window load
 window.onload = function() {
-    createVideoContainers();
     loadYouTubeAPI();
 };
