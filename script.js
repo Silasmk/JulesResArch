@@ -2,13 +2,11 @@ var videos = [
     { id: 'n3RprPpVp-g', startTime: 1189 },
     { id: 'M7lc1UVf-VE', startTime: 60 },
     { id: '39QXz1bbWxw', startTime: 48 },
-    { id: 'bdBwTGJrD6c', startTime: 1670 },
+    { id: 'bdBwTGJrD6c', startTime: 670 },
     { id: 'pcuv0RubURo', startTime: 600 },
-    { id: 'imq2XbWZwRc', startTime: 60 },
+    { id: 'M7lc1UVf-VE', startTime: 60 },
     { id: 'FTIdLXifKO0', startTime: 10 }
 ];
-//data = '[{"name" : "Ashwin", "age" : "20"},{"name" : "Abhinandan", "age" : "20"}]';
-//var mydata = JSON.parse(data);
 
 var players = [];
 
@@ -51,13 +49,14 @@ function initializeYouTubePlayers() {
 }
 
 function onYouTubeIframeAPIReady() {
-    fetchVideos();
+    initializeYouTubePlayers();
 }
 
 function onPlayerReady(event) {
     var player = event.target;
     var playerIndex = players.indexOf(player);
     var videoData = videos[playerIndex];
+
 
     // Seek to the start time
     player.seekTo(videoData.startTime, true);
@@ -67,6 +66,7 @@ function onPlayerReady(event) {
     player.playVideo();
 }
 
+// This function is called when any player's state changes
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
         // Pause the video immediately
@@ -74,7 +74,8 @@ function onPlayerStateChange(event) {
     }
 }
 
-// Initialize video containers and load the YouTube API on window load
+// Initialize video containers and load the YouTube API
 window.onload = function() {
+    createVideoContainers();
     loadYouTubeAPI();
 };
