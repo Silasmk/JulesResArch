@@ -1,16 +1,6 @@
-var videos = [
-    { id: 'n3RprPpVp-g', startTime: 1189 },
-    { id: 'M7lc1UVf-VE', startTime: 60 },
-    { id: '39QXz1bbWxw', startTime: 48 },
-    { id: 'bdBwTGJrD6c', startTime: 1670 },
-    { id: 'pcuv0RubURo', startTime: 600 },
-    { id: 'imq2XbWZwRc', startTime: 60 },
-    { id: 'FTIdLXifKO0', startTime: 10 }
-];
-
 var players = [];
 
-function createVideoContainers() {
+function createVideoContainers(videos) {
     var containerWrapper = document.getElementById('video-container-wrapper');
 
     if (!containerWrapper) {
@@ -34,7 +24,7 @@ function loadYouTubeAPI() {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 }
 
-function initializeYouTubePlayers() {
+function initializeYouTubePlayers(videos) {
     videos.forEach((video, index) => {
         players[index] = new YT.Player(`player${index + 1}`, {
             height: '180',
@@ -49,14 +39,18 @@ function initializeYouTubePlayers() {
 }
 
 function onYouTubeIframeAPIReady() {
-    initializeYouTubePlayers();
+    fetch('path/to/videos.json')
+        .then(response => response.json())
+        .then(videos => {
+            createVideoContainers(videos);
+            initializeYouTubePlayers(videos);
+        });
 }
 
 function onPlayerReady(event) {
     var player = event.target;
     var playerIndex = players.indexOf(player);
     var videoData = videos[playerIndex];
-
 
     // Seek to the start time
     player.seekTo(videoData.startTime, true);
@@ -66,7 +60,6 @@ function onPlayerReady(event) {
     player.playVideo();
 }
 
-// This function is called when any player's state changes
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
         // Pause the video immediately
@@ -76,6 +69,5 @@ function onPlayerStateChange(event) {
 
 // Initialize video containers and load the YouTube API
 window.onload = function() {
-    createVideoContainers();
     loadYouTubeAPI();
 };
