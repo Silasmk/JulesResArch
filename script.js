@@ -1,4 +1,4 @@
-/*var videos = [
+var videos = [
     { id: 'n3RprPpVp-g', startTime: 1189 },
     { id: 'M7lc1UVf-VE', startTime: 60 },
     { id: '39QXz1bbWxw', startTime: 48 },
@@ -6,24 +6,11 @@
     { id: 'pcuv0RubURo', startTime: 600 },
     { id: 'imq2XbWZwRc', startTime: 60 },
     { id: 'FTIdLXifKO0', startTime: 10 }
-];*/
+];
 //data = '[{"name" : "Ashwin", "age" : "20"},{"name" : "Abhinandan", "age" : "20"}]';
 //var mydata = JSON.parse(data);
 
 var players = [];
-var videos = []; // Initialize an empty array
-
-// Function to fetch videos from GitHub Pages
-function fetchVideos() {
-    fetch('https://Silasmk.github.io/JulesResArch/data/videos.json')
-        .then(response => response.json())
-        .then(data => {
-            videos = data;
-            createVideoContainers();
-            loadYouTubeAPI();
-        })
-        .catch(error => console.error('Error fetching video data:', error));
-}
 
 function createVideoContainers() {
     var containerWrapper = document.getElementById('video-container-wrapper');
