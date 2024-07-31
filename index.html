@@ -6,15 +6,16 @@
     <title>Jules Ressource Archive</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<script type="text/javascript" src="videos.json"></script>
- <script type="text/javascript" src="script.js"></script>
 <body>
     <h1>Upload Link</h1>
     <div>
-        <input id="input_link">
+        <input id="input_link" type="text" placeholder="Enter link here">
         <button onclick="upload()">Upload</button>
     </div>
     <h1>Ressourcen</h1>
     <div id="video-container-wrapper"></div>
+
+    <!-- Include JavaScript files at the end of the body -->
+    <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
